@@ -1,0 +1,99 @@
+-- Jan Doležel 2020, ISS projekt
+
+-- Práva:   0 - nikdo
+--          1 - musí mít společnou skupinu
+--          2 - musí být registrovaný
+--          3 - všichni
+-- default bude 3 pro uživatele, 1 pro skupinu
+
+
+-- Registrovaný uživatel
+CREATE TABLE Uzivatel (
+id_uzivatel INT PRIMARY KEY auto_increment,
+nick VARCHAR(30) NOT NULL UNIQUE,
+heslo VARCHAR(30) NOT NULL,
+popis_uzivatel VARCHAR(30) DEFAULT NULL,
+prava_uzivatel INT DEFAULT 3
+); 
+
+
+
+-- Skupina
+CREATE TABLE Skupina (
+id_skupina INT PRIMARY KEY auto_increment,
+id_spravce INT,
+nazev_skupina VARCHAR(30) NOT NULL UNIQUE,
+popis_skupina VARCHAR(30) DEFAULT NULL,
+prava_skupina INT DEFAULT 1,
+FOREIGN KEY (id_spravce) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+); 
+
+
+-- Vlákno
+CREATE TABLE Vlakno (
+id_vlakno INT PRIMARY KEY auto_increment,
+id_skupina INT,
+nazev_vlakno VARCHAR(30) NOT NULL,
+FOREIGN KEY (id_skupina) REFERENCES Skupina (id_skupina) ON DELETE CASCADE
+); 
+
+
+-- Příspěvek
+CREATE TABLE Prispevek (
+id_prispevek INT PRIMARY KEY auto_increment,
+id_vlakno INT,
+id_uzivatel INT,
+text VARCHAR(200) NOT NULL,
+rank INT DEFAULT 0,
+FOREIGN KEY (id_vlakno) REFERENCES Vlakno (id_vlakno) ON DELETE CASCADE,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE SET NULL
+); 
+ 
+
+-- Člen skupiny
+CREATE TABLE Clen_skupiny (
+id_skupina INT,
+id_uzivatel INT,
+FOREIGN KEY (id_skupina) REFERENCES Skupina (id_skupina) ON DELETE CASCADE,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+);
+
+
+-- Moderátor skupiny
+CREATE TABLE Mod_skupiny (
+id_skupina INT,
+id_uzivatel INT,
+FOREIGN KEY (id_skupina) REFERENCES Skupina (id_skupina) ON DELETE CASCADE,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+);
+
+-- Administrátor
+CREATE TABLE Admin (
+id_admin INT PRIMARY KEY auto_increment,
+id_uzivatel INT,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+);
+
+
+-- Hodnocení příspěvků
+CREATE TABLE Prispevek_rank (
+id_prispevek INT,
+id_uzivatel INT,
+FOREIGN KEY (id_prispevek) REFERENCES Prispevek (id_prispevek) ON DELETE CASCADE,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+);
+
+-- Žádosti do rank up (získání členství ve skupině, žádost o zvýšení práv na MODa)
+-- typ=0 - žádost o členství ve skupině
+-- typ=1 = žádost o roli moderátora ve skupině
+CREATE TABLE Zadost (
+id_zadost INT PRIMARY KEY auto_increment,
+id_skupina INT,
+id_uzivatel INT,
+typ_zadost INT NOT NULL,
+FOREIGN KEY (id_skupina) REFERENCES Skupina (id_skupina) ON DELETE CASCADE,
+FOREIGN KEY (id_uzivatel) REFERENCES Uzivatel (id_uzivatel) ON DELETE CASCADE
+);
+
+
+

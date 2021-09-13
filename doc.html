@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+		.imgbox {
+			display: grid;
+			height: 100%;
+		}
+		.center-fit {
+			max-width: 100%;
+			margin: auto;
+		}
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Varianta termínu - 3. Sociální síť: diskuse v diskusních skupinách</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Jan Doležel <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xdolez81@stud.fit.vutbr.cz">xdolez81@stud.fit.vutbr.cz</a> -
+		implementace databázové vrstvy, implementace aplikační vrstvy a gui
+	</dd>
+	<dd>Michal Štábel <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xstabe00@stud.fit.vutbr.cz">xstabe00@stud.fit.vutbr.cz</a> -
+		implementace aplikační vrstvy a gui
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xdolez81/IIS">http://www.stud.fit.vutbr.cz/~xdolez81/IIS</a></dd>
+	<dd>(pokud má aplikace více vstupních stránek, napište obdobně další URL)</dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>manager</td><td>manager</td><td>Správce skupiny</td></tr>
+<tr><td>mod</td><td>mod</td><td>Moderátor skupiny</td></tr>
+<tr><td>clen</td><td>clen</td><td>Člen skupiny</td></tr>
+<tr><td>john</td><td>john</td><td>Pouze registrovaný uživatel</td></tr>
+</table>
+
+<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p> 
+
+<h2>Implementace</h2>
+<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují jednotlivé případy použití.</p>
+<ul>
+	<li>database.php - třída pro připojení a práci s databází</li>
+	<li>functions_john.php - generování html výstupu (používaný v následujících skriptech)</li>
+	<li>index.php - domovská stránka</li>
+	<li>users_john.php - prohlížení všech existujících profilů uživatelů</li>
+	<li>profile_john.php - zobrazení profilu určitého uživatele (editace profilu pro majitele, vytváření nových skupiny)</li>
+	<li>groups_john.php - prohlížení všech existujících profilů skupin</li>
+	<li>group_john.php - zobrazení profilu určité skupiny (editace skupiny pro správce, vytváření nových vláken atd.)</li>
+	<li>thread_john.php - zobrazení obsahu vlákna</li>
+	<li>login_john.php - přihlašovací stránka</li>
+	<li>logout_john.php - odhlášení uživatele</li>
+	<li>register_john.php - registrace nového uživatele</li>
+	<li>styles_john.css - kaskádové styly</li>
+</ul>
+
+<h3>Databáze</h3>
+
+Zde vložte grafické schéma relační databáze (tabulek v databázi).
+<div class="imgbox">
+	<img class="center-fit" src="erd.png">
+</div>
+
+<h2>Instalace</h2>
+
+Stručně popište: 
+<ul>
+<li>postup instalace na server,</li>
+	<ul>
+		<li>Stačí rozbalit xdolez81.zip a vytvořit databázi</li>
+	</ul>
+<li>softwarové požadavky (verze PHP apod.),</li>
+	<ul>
+		<li>Verze PHP 5.6.33 (cli) (built: Jan  8 2018 15:45:44) na serveru Eva je dostačující</li>
+	</ul>
+<li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+	<ul>
+		<li>Rozbalí se .zip do www složky</li>
+		<li>Databáze se inicializuje skriptem database_CREATE.txt</li>
+	</ul>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Zde popište, které body zadání nejsou implementovány a z jakého důvodu. Např. &bdquo;Z časových důvodů nebyla implementována správa uživatelů.&rdquo; Pomůžete tím zrychlit hodnocení, když neimplementované funkce nebudeme muset dlouze hledat.</p>
+<ul>
+	<li>Nefunguje registrace do skupin a žádost o post moderátora (uživatelé budou do skupiny přidáni manuálně - pro demonstraci funkčnosti práv prohlížení atd.)</li>
+	<li>Není implementováno promazávání příspěvků pro admina, správce, moderátora</li>
+	<li>Chatování ve vláknu funguje tak, že pokud chcete zobrazit nové příspěvky, tak je první třeba nějaký příspěvek zaslat, nebo stisknout refresh (tlačítko vedle zaslání zprávy), pro neregistrovaného uživatele F5</li>
+	<li>Důvodem všech problémů je moje podcenění časové náročnosti na tvorbu projektu a moje neschopnost</li>
+</ul>
+</body>
+</html>
